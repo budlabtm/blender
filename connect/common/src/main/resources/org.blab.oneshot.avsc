@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "namespace": "org.blab",
+  "name": "oneshot",
+  "fields": [
+    {
+      "name": "value",
+      "type": "double"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    }
+  ],
+}

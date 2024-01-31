@@ -1,0 +1,17 @@
+bazel_dep(name = "rules_jvm_external", version = "6.0")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        "org.apache.kafka:connect-api:3.6.1",
+        "org.apache.kafka:kafka-clients:3.6.1",
+        "org.apache.avro:avro:1.11.3",
+        "org.springframework.boot:spring-boot-starter-jdbc:3.2.2",
+        "org.springframework.boot:spring-boot-starter-web:3.2.2",
+        "org.eclipse.paho:org.eclipse.paho.mqttv5.client:1.2.5",
+        "org.postgresql:postgresql:42.7.1",
+        "junit:junit:4.13.2",
+    ],
+    repositories = ["https://repo1.maven.org/maven2"],
+)
+use_repo(maven, "maven")

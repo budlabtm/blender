@@ -1,0 +1,80 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'Registry API'
+  description: Storage for Avro schemas.
+
+servers:
+  - url: localhost:8080
+
+paths:
+  /schemas:
+    post:
+      summary: Create or update schema.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Schema"
+      responses:
+        201:
+          description: Success. Created schema returns back.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Schema"
+        400:
+          description: The schema does not meet Avro specifications.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        500:
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /schemas/{name}:
+    parameters:
+      - name: name
+        description: Full name of the schema (i.e. namespace + name).
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Read schema corresponding to the provided `name`.
+      responses:
+        200:
+          description: Success. The found schema is returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schema'
+        404:
+          description: No schema found for the provided `name`.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Schema:
+      description: JSON serialized Avro schema.
+      type: string
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: A human readable error message.
+          type: string
+
