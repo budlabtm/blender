@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="processed_junit-4.13.2_c0274034">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.cache/bazel/_bazel_mehandes/bc7403d4a047b90a1fcdb00db24ef1df/execroot/_main/bazel-out/k8-fastbuild/bin/external/rules_jvm_external~6.0~maven~maven/v1/https/repo1.maven.org/maven2/junit/junit/4.13.2/processed_junit-4.13.2.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="processed_connect-api-3.6.1_a0070a99">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.cache/bazel/_bazel_mehandes/bc7403d4a047b90a1fcdb00db24ef1df/execroot/_main/bazel-out/k8-fastbuild/bin/external/rules_jvm_external~6.0~maven~maven/v1/https/repo1.maven.org/maven2/org/apache/kafka/connect-api/3.6.1/processed_connect-api-3.6.1.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

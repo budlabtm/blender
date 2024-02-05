@@ -1,5 +1,5 @@
 java_import(
-    name = "api",
+    name = "connect",
     jars = [],
     neverlink = True,
     visibility = ["//connect:__subpackages__"],

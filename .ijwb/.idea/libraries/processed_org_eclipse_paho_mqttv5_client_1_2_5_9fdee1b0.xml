@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="processed_org.eclipse.paho.mqttv5.client-1.2.5_9fdee1b0">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.cache/bazel/_bazel_mehandes/bc7403d4a047b90a1fcdb00db24ef1df/execroot/_main/bazel-out/k8-fastbuild/bin/external/rules_jvm_external~6.0~maven~maven/v1/https/repo1.maven.org/maven2/org/eclipse/paho/org.eclipse.paho.mqttv5.client/1.2.5/processed_org.eclipse.paho.mqttv5.client-1.2.5.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

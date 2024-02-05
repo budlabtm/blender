@@ -21,13 +21,13 @@ public class SchemaController {
     this.schemaRepository = schemaRepository;
   }
 
-  @GetMapping("/{name}")
-  public ResponseEntity<Object> get(@PathVariable(name = "name") String name) {
+  @GetMapping("/{id}")
+  public ResponseEntity<Object> get(@PathVariable(name = "id") String id) {
     try {
-      Record record = schemaRepository.findByName(name);
-
-      if (record != null) return ResponseEntity.status(200).body(record.schema());
-      else return ResponseEntity.status(404).body(new Error("Schema not found."));
+      String schema = schemaRepository.findById(id);
+      return schema != null ? ResponseEntity.status(200).body(schema)
+          : ResponseEntity.status(404)
+              .body(new Error(String.format("Schema \"%s\" not found.", id)));
     } catch (Exception e) {
       return ResponseEntity.status(500).body(new Error(e.getMessage()));
     }
@@ -45,7 +45,7 @@ public class SchemaController {
             .body(new Error("The schema does not meet Avro specifications."));
       }
 
-      schemaRepository.save(new Record(schema.getFullName(), schema.toString()));
+      schemaRepository.save(schema.getFullName(), schema.toString());
       return ResponseEntity.status(201).body(schema.toString());
     } catch (Exception e) {
       return ResponseEntity.status(500).body(new Error(e.getMessage()));

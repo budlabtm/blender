@@ -2,7 +2,7 @@ java_binary(
     name = "registry",
     srcs = glob(["src/main/java/**/*.java"]),
     main_class = "org.blab.blender.registry.Registry",
-    resources = glob(["src/main/resources/application.properties"]),
+    resources = ["src/main/resources/application.properties"],
     deps = [
         "@maven//:org_apache_avro_avro",
         "@maven//:org_postgresql_postgresql",

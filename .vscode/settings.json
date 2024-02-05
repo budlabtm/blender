@@ -1,0 +1,19 @@
+{
+    "java.format.enabled": true,
+    "java.format.settings.url": ".vscode/eclipse-java-google-style.xml",
+    "java.format.settings.profile": "GoogleStyle",
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java",
+        "editor.tabSize": 2,
+        "editor.detectIndentation": false,
+    },
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "bazel-bin/external/rules_jvm_external~6.0~maven~maven/v1/https/repo1.maven.org/maven2/**/*.jar"
+    ],
+    "java.project.sourcePaths": [
+        "connect/river/common/src/test/java",
+        "connect/river/common/src/main/java",
+        "registry/src/main/java"
+    ],
+}
