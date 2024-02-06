@@ -12,8 +12,10 @@
         "bazel-bin/external/rules_jvm_external~6.0~maven~maven/v1/https/repo1.maven.org/maven2/**/*.jar"
     ],
     "java.project.sourcePaths": [
+        "registry/src/main/java",
+        "connect/river/vcas/src/main/java",
         "connect/river/common/src/test/java",
         "connect/river/common/src/main/java",
-        "registry/src/main/java"
+        "connect/river/mqtt/src/main/java"
     ],
 }

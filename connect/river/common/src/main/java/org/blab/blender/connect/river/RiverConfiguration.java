@@ -15,6 +15,8 @@ public class RiverConfiguration extends AbstractConfig {
   public static final String LADES_RESOLVER_CLASS = "river.lades.resolver.class";
   public static final String CLIENT_HOST = "river.client.host";
   public static final String CLIENT_PORT = "river.client.port";
+  public static final String CLIENT_USERNAME = "river.client.username";
+  public static final String CLIENT_PASSWORD = "river.client.password";
   public static final String CLIENT_CLASS = "river.client.class";
   public static final String BUFFER_SIZE = "river.buffer.size";
 
@@ -23,8 +25,10 @@ public class RiverConfiguration extends AbstractConfig {
       .define(LADES_EXCLUDE, Type.LIST, Importance.MEDIUM, "List of lades to exclude.")
       .define(LADES_RESOLVER_CLASS, Type.STRING, Importance.HIGH,
           "RiverLadesResolver implementation class.")
-      .define(CLIENT_HOST, Type.STRING, Importance.HIGH, "River host to connect.")
-      .define(CLIENT_PORT, Type.INT, Importance.HIGH, "River TCP port to connect.")
+      .define(CLIENT_HOST, Type.STRING, Importance.HIGH, "River host.")
+      .define(CLIENT_PORT, Type.INT, Importance.HIGH, "River TCP port.")
+      .define(CLIENT_USERNAME, Type.STRING, Importance.MEDIUM, "River username.")
+      .define(CLIENT_PASSWORD, Type.STRING, Importance.MEDIUM, "River password.")
       .define(CLIENT_CLASS, Type.STRING, Importance.HIGH, "RiverClient implementation class.")
       .define(BUFFER_SIZE, Type.INT, Importance.HIGH, "RiverTask buffer size.");
 

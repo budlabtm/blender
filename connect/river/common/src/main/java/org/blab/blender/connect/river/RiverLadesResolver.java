@@ -1,7 +1,7 @@
 package org.blab.blender.connect.river;
 
 import java.nio.channels.CompletionHandler;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Resolver for active River lades.
@@ -12,17 +12,10 @@ public interface RiverLadesResolver {
    * 
    * @param handler - completion handler, called when new lades are resolved
    */
-  void start(CompletionHandler<Integer, List<String>> handler);
+  void start(RiverConfiguration cfg, CompletionHandler<Integer, Set<String>> handler);
 
   /**
    * Stop resolving active lades.
    */
   void stop();
-
-  /**
-   * Exclude lades from resolving.
-   * 
-   * @param lades - lades to exclude
-   */
-  void exclude(List<String> lades);
 }

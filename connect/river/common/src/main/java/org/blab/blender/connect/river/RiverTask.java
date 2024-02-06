@@ -1,9 +1,10 @@
 package org.blab.blender.connect.river;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
@@ -14,7 +15,7 @@ import org.blab.blender.connect.river.RiverClient.Callback;
  */
 public class RiverTask extends SourceTask implements Callback {
   private Buffer<SourceRecord> buffer;
-  private List<String> lades;
+  private Set<String> lades;
   private RiverClient client;
 
   @Override
@@ -24,26 +25,27 @@ public class RiverTask extends SourceTask implements Callback {
 
   @Override
   public void start(Map<String, String> properties) {
+    RiverConfiguration cfg = new RiverConfiguration(properties);
+
+    buffer = new Buffer<>(cfg.getInt(RiverConfiguration.BUFFER_SIZE));
+    lades = cfg.getList(RiverConfiguration.LADES).stream().collect(Collectors.toSet());
+
     try {
-      init(properties);
-      connect(properties);
+      connect(cfg);
     } catch (Exception e) {
       throw new ConnectException(e);
     }
   }
 
-  private void init(Map<String, String> properties) throws Exception {
-    buffer = new Buffer<>(Integer.parseUnsignedInt(properties.get(RiverConfiguration.BUFFER_SIZE)));
-    lades = Arrays.stream(properties.get(RiverConfiguration.LADES).split(",")).toList();
-    client = Class.forName(properties.get(RiverConfiguration.CLIENT_CLASS))
+  private void connect(RiverConfiguration cfg) throws Exception {
+    client = Class.forName(cfg.getString(RiverConfiguration.CLIENT_CLASS))
         .asSubclass(RiverClient.class).getConstructor().newInstance();
-  }
-
-  private void connect(Map<String, String> properties) {
     client.subscribeAll(lades);
     client.setCallback(this);
-    client.connect(properties.get(RiverConfiguration.CLIENT_HOST),
-        Integer.parseUnsignedInt(properties.get(RiverConfiguration.CLIENT_PORT)));
+    client.connect(cfg.getString(RiverConfiguration.CLIENT_HOST),
+        cfg.getInt(RiverConfiguration.CLIENT_PORT),
+        cfg.getString(RiverConfiguration.CLIENT_USERNAME),
+        cfg.getString(RiverConfiguration.CLIENT_PASSWORD));
   }
 
   @Override
