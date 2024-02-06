@@ -1,6 +1,6 @@
 package org.blab.blender.connect.river;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Abstract River representation.
@@ -8,6 +8,9 @@ import java.util.Collection;
 public interface RiverClient {
   /**
    * Connect to River. If there are lades already presented, subscribe on them.
+   * 
+   * @param host - River TCP host
+   * @param port - River TCP port
    */
   void connect(String host, int port);
 
@@ -18,6 +21,8 @@ public interface RiverClient {
 
   /**
    * Check wether River connected or not.
+   * 
+   * @return Connection status
    */
   boolean isConnected();
 
@@ -33,7 +38,7 @@ public interface RiverClient {
    * 
    * @param lades - lades to subscribe
    */
-  void subscribeAll(Collection<String> lades);
+  void subscribeAll(List<String> lades);
 
   /**
    * Unsubscribe from lade. If River disconnected, unsubscribes after reconnect.
@@ -47,7 +52,7 @@ public interface RiverClient {
    * 
    * @param lades - lades to unsubscribe
    */
-  void unsubscribeAll(Collection<String> lades);
+  void unsubscribeAll(List<String> lades);
 
   void setCallback(Callback callback);
 

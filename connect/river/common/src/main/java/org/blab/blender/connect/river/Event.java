@@ -15,6 +15,8 @@ import org.apache.avro.io.Decoder;
 import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
+import org.apache.kafka.connect.header.ConnectHeaders;
+import org.apache.kafka.connect.header.Headers;
 
 /**
  * Single message reveived from River.
@@ -28,6 +30,15 @@ public record Event(String source, double value, long timestamp) {
   public static final Schema SCHEMA = SchemaBuilder.record("event").namespace("org.blab").fields()
       .requiredDouble("value").requiredLong("timestamp").endRecord();
 
+
+  /**
+   * Generate associated headers.
+   * 
+   * @return Headers to attach
+   */
+  public Headers headers() {
+    return new ConnectHeaders().addString("schema", SCHEMA.toString());
+  }
 
   /**
    * Serializes event into record value (payload).

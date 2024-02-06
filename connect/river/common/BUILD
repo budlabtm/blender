@@ -13,6 +13,7 @@ java_test(
     srcs = ["src/test/java/org/blab/blender/connect/river/BufferTest.java"],
     deps = [
         ":common",
+        "@maven//:junit_junit",
     ],
 )
 
@@ -21,5 +22,6 @@ java_test(
     srcs = ["src/test/java/org/blab/blender/connect/river/EventTest.java"],
     deps = [
         ":common",
+        "@maven//:junit_junit",
     ],
 )
