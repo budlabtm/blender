@@ -1,4 +1,4 @@
-package org.blab.blender.connect.river.mqtt;
+package org.blab.blender.connect.mqtt;
 
 import java.util.Arrays;
 import java.util.HashSet;

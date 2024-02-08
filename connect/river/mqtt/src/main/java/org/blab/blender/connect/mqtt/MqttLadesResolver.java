@@ -1,4 +1,4 @@
-package org.blab.blender.connect.river.mqtt;
+package org.blab.blender.connect.mqtt;
 
 import java.nio.channels.CompletionHandler;
 import java.util.HashSet;
