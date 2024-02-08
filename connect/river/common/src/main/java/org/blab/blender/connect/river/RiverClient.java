@@ -40,7 +40,7 @@ public interface RiverClient {
    * 
    * @param lades - lades to subscribe
    */
-  void subscribeAll(Set<String> lades);
+  void subscribe(Set<String> lades);
 
   /**
    * Unsubscribe from lade. If River disconnected, unsubscribes after reconnect.
@@ -54,7 +54,7 @@ public interface RiverClient {
    * 
    * @param lades - lades to unsubscribe
    */
-  void unsubscribeAll(Set<String> lades);
+  void unsubscribe(Set<String> lades);
 
   void setCallback(Callback callback);
 

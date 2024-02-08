@@ -1,6 +1,8 @@
 package org.blab.blender.connect.river;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 

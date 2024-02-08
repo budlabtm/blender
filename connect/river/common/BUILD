@@ -5,6 +5,7 @@ java_library(
     deps = [
         "//connect",
         "@maven//:org_apache_avro_avro",
+        "@maven//:org_slf4j_slf4j_api",
     ],
 )
 

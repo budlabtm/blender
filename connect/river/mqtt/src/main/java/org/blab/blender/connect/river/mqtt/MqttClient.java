@@ -11,11 +11,16 @@ import org.eclipse.paho.mqttv5.client.MqttAsyncClient;
 import org.eclipse.paho.mqttv5.client.MqttCallback;
 import org.eclipse.paho.mqttv5.client.MqttConnectionOptionsBuilder;
 import org.eclipse.paho.mqttv5.client.MqttDisconnectResponse;
+import org.eclipse.paho.mqttv5.client.persist.MemoryPersistence;
 import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MqttClient implements RiverClient, MqttCallback {
+  private static final Logger log = LoggerFactory.getLogger(MqttClient.class);
+
   private Set<String> lades = new HashSet<>();
   private MqttAsyncClient client;
   private Callback callback;
@@ -24,7 +29,7 @@ public class MqttClient implements RiverClient, MqttCallback {
   public void connect(String host, int port, String username, String password) {
     try {
       client = new MqttAsyncClient(String.format("tcp://%s:%d", host, port),
-          UUID.randomUUID().toString());
+          UUID.randomUUID().toString(), new MemoryPersistence());
       client.setCallback(this);
       client.connect(new MqttConnectionOptionsBuilder().automaticReconnect(true).username(username)
           .password(password.getBytes()).build());
@@ -50,37 +55,51 @@ public class MqttClient implements RiverClient, MqttCallback {
   }
 
   @Override
-  public void subscribe(String lade) {
-    subscribeAll(Set.of(lade));
+  public void subscribe(String l) {
+    subscribe(Set.of(l));
   }
 
   @Override
-  public void subscribeAll(Set<String> lades) {
-    if (this.lades.addAll(lades) && isConnected()) {
-      int[] qos = new int[lades.size()];
-      Arrays.fill(qos, 1);
-
+  public void subscribe(Set<String> l) {
+    if (lades.addAll(l) && isConnected()) {
       try {
-        client.subscribe((String[]) lades.toArray(), qos);
+        subscribeAll(l);
       } catch (Exception e) {
         callback.onError(e);
       }
     }
   }
 
-  @Override
-  public void unsubscribe(String lade) {
-    unsubscribeAll(Set.of(lade));
+  private void subscribeAll(Set<String> l) throws MqttException {
+    int[] qos = new int[l.size()];
+    String[] topicFilters = new String[l.size()];
+
+    Arrays.fill(qos, 1);
+    topicFilters = l.toArray(topicFilters);
+
+    client.subscribe(topicFilters, qos);
   }
 
   @Override
-  public void unsubscribeAll(Set<String> lades) {
-    if (this.lades.removeAll(lades) && isConnected())
+  public void unsubscribe(String l) {
+    unsubscribe(Set.of(l));
+  }
+
+  @Override
+  public void unsubscribe(Set<String> l) {
+    if (lades.removeAll(l) && isConnected())
       try {
-        client.unsubscribe((String[]) lades.toArray());
+        unsubscribeAll(l);
       } catch (Exception e) {
         callback.onError(e);
       }
+  }
+
+  private void unsubscribeAll(Set<String> l) throws MqttException {
+    String[] topicFilters = new String[l.size()];
+    topicFilters = l.toArray(topicFilters);
+
+    client.unsubscribe(topicFilters);
   }
 
   @Override
@@ -90,11 +109,8 @@ public class MqttClient implements RiverClient, MqttCallback {
 
   @Override
   public void connectComplete(boolean reconnect, String serverURI) {
-    int[] qos = new int[lades.size()];
-    Arrays.fill(qos, 1);
-
     try {
-      client.subscribe((String[]) lades.toArray(), qos);
+      subscribeAll(lades);
     } catch (Exception e) {
       callback.onError(e);
     }
@@ -102,6 +118,7 @@ public class MqttClient implements RiverClient, MqttCallback {
 
   @Override
   public void messageArrived(String topic, MqttMessage message) throws Exception {
+    log.debug("Message arrived: " + topic);
     String[] tokens = message.toString().split("\\|");
 
     try {

@@ -18,4 +18,5 @@
         "connect/river/common/src/main/java",
         "connect/river/mqtt/src/main/java"
     ],
+    "java.compile.nullAnalysis.mode": "automatic",
 }

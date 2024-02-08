@@ -10,6 +10,7 @@ maven.install(
         "org.springframework.boot:spring-boot-starter-web:3.2.2",
         "org.eclipse.paho:org.eclipse.paho.mqttv5.client:1.2.5",
         "org.postgresql:postgresql:42.7.1",
+        "org.slf4j:slf4j-api:1.7.36",
         "junit:junit:4.13.2",
     ],
     repositories = ["https://repo1.maven.org/maven2"],

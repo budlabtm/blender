@@ -9,11 +9,15 @@ import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
 import org.blab.blender.connect.river.RiverClient.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Source task for River systems.
  */
 public class RiverTask extends SourceTask implements Callback {
+  private static final Logger log = LoggerFactory.getLogger(RiverTask.class);
+
   private Buffer<SourceRecord> buffer;
   private Set<String> lades;
   private RiverClient client;
@@ -30,6 +34,8 @@ public class RiverTask extends SourceTask implements Callback {
     buffer = new Buffer<>(cfg.getInt(RiverConfiguration.BUFFER_SIZE));
     lades = cfg.getList(RiverConfiguration.LADES).stream().collect(Collectors.toSet());
 
+    log.debug("Staring for: " + lades);
+
     try {
       connect(cfg);
     } catch (Exception e) {
@@ -40,7 +46,7 @@ public class RiverTask extends SourceTask implements Callback {
   private void connect(RiverConfiguration cfg) throws Exception {
     client = Class.forName(cfg.getString(RiverConfiguration.CLIENT_CLASS))
         .asSubclass(RiverClient.class).getConstructor().newInstance();
-    client.subscribeAll(lades);
+    client.subscribe(lades);
     client.setCallback(this);
     client.connect(cfg.getString(RiverConfiguration.CLIENT_HOST),
         cfg.getInt(RiverConfiguration.CLIENT_PORT),
